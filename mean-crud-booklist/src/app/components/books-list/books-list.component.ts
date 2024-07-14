@@ -9,13 +9,21 @@ import { CrudService } from './../../service/crud.service';
 export class BooksListComponent implements OnInit {
 
   Books:any = [];
- 
+
   constructor(private crudService: CrudService) { }
- 
+
   ngOnInit(): void {
     this.crudService.GetBooks().subscribe(res => {
       console.log(res)
       this.Books =res;
-    });    
+    });
+  }
+
+  onDelete(id: any): any {
+    this.crudService.DeleteBook(id)
+    .subscribe(res => {
+      console.log(res)
+    })
+    location.reload();
   }
 }
