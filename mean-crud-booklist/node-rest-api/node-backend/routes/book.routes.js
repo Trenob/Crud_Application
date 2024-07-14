@@ -1,9 +1,10 @@
 const express = require('express');
 const app = express();
- 
+
 const bookRoute = express.Router();
 let Book = require('../model/Book');
- 
+const { error } = require('console');
+
 // Get all Books
 bookRoute.route('/').get((req, res) => {
     Book.find().then((response) => {
@@ -13,5 +14,17 @@ bookRoute.route('/').get((req, res) => {
       console.error(`Could not get books: ${error}`);
   })
 })
+
+// Add a book
+bookRoute.route('/add-book').post((req, res) => {
+  Book.create(req.body).then(() => {
+    console.log('Book added successfully.');
+    res.status(200);
+  })
+  .catch((error) => {
+    console.error(`Could not save book: ${error}`);
+  })
+})
+
 
 module.exports = bookRoute;
